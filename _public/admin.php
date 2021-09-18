@@ -69,17 +69,56 @@ $Route->add('/admin/{route}', function ($route) {
 		$Template->assign("SiteInfos", $Core->SiteInfos());
 	} elseif ($route == "profile") {
 		$Template->assign("title", "User Profile");
+	} elseif ($route == "registrations") {
+		$Template->assign("title", "Unapproved Members");
+		$Template->assign("Members", $Core->AdminListUnapprovedMembers());
+	} elseif ($route == "members") {
+		$Template->assign("title", "Approved Members");
+		$Template->assign("Members", $Core->AdminListApprovedMembers());
+	} elseif ($route == "dues") {
+		$Template->assign("title", "Dues & Projects");
+		$Template->assign("Projects", $Core->AdminListProjects());
+	} elseif ($route == "donations") {
+		$Template->assign("title", "Manage Donations");
+		$Template->assign("Donations", $Core->AdminListDonations());
 	} elseif ($route == "webparts") {
 		$Template->assign("title", "View Webparts");
 		$directory = './templates/webparts/';
 		$WebParts = array_diff(scandir($directory), array('..', '.'));
 		$Template->assign("WebParts", $WebParts);
+	} elseif ($route == "add-project") {
+		$Template->assign("title", "Add New Prject");
 	}
+
 	$Template->assign("expanded", true);
 	$Template->render("admin.routes.{$route}");
 }, 'GET');
 
 
+
+
+$Route->add('/admin/dues/{dueid}/unpaid', function ($dueid) {
+
+	$Core = new Apps\Core;
+	$Template = new Apps\Template("/admin/login");
+	$Template->addheader("admin.layouts.header");
+	$Template->addfooter("admin.layouts.footer");
+
+	$ProjectInfo = $Core->ProjectInfo($dueid);
+	
+	$unpaid_members = json_decode($ProjectInfo->unpaid_members);
+	$paid_members = json_decode($ProjectInfo->paid_members);
+
+	$Template->assign("UnpaidMembers", $unpaid_members);
+	$Template->assign("PaidMembers", $paid_members);
+	
+	$Template->assign("ProjectInfo", $ProjectInfo);
+	$Template->assign("title", "{$ProjectInfo->title} - Member Owing");
+	$Template->assign("Members", $Core->AdminListMembers());
+
+	$Template->assign("expanded", true);
+	$Template->render("admin.routes.unpaid-dues");
+}, 'GET');
 
 
 $Route->add('/admin/page-webparts/page/{pageid}/add/{webpart}', function ($pageid, $webpart) {
@@ -304,7 +343,6 @@ $Route->add('/ajax/{cmd}', function ($cmd) {
 			]);
 		}
 		$Template->redirect("/");
-
 	} elseif ($cmd == 'add-slide') {
 
 		$Post = $Core->post($_POST);
@@ -509,6 +547,39 @@ $Route->add('/ajax/{cmd}', function ($cmd) {
 			$Core->setSiteInfo("{$site->name}", $Post->$_name);
 		}
 		$Template->redirect("/admin/settings");
+	} elseif ($cmd == 'add-project') {
+
+		$Post = $Core->post($_POST);
+
+		$mydb = new Apps\MysqliDb;
+
+		$title = $Post->title;
+		$total = $Post->total;
+		$amount = $Post->amount;
+		$method = $Post->method;
+
+		$unpaid_members = "[]";
+
+		if ($method == "due") {
+			$all_members = $Core->GetIdsOfMembers();
+			$unpaid_members = json_encode($all_members);
+		} else {
+			//it's donation//
+		}
+
+		$inserted = $mydb->insert("dues", [
+			"title" => $title,
+			"total" => $total,
+			"amount" => $amount,
+			"method" => $method,
+			"unpaid_members" => $unpaid_members
+		]);
+		if ((int)$inserted) {
+			$Template->setError("Project created.", "success", "/admin/dues");
+			$Template->redirect("/admin/dues");
+		}
+		$Template->setError("Project creation failed.", "danger", "/admin/add-project");
+		$Template->redirect("/admin/add-project");
 	}
 }, 'POST');
 

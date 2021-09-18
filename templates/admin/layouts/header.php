@@ -222,7 +222,8 @@ $UserInfo = $Core->UserInfo($accid);
               <span class="nav-text">Donations & Dues</span>
             </a>
             <ul aria-expanded="false">
-              <li><a href="/admin/donations">Manage Donations</a></li>
+            <li><a href="/admin/add-project">Create Project/Dues</a></li>
+             <li><a href="/admin/donations">Manage Donations</a></li>
               <li><a href="/admin/dues">Manage Dues</a></li>
             </ul>
           </li>

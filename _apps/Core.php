@@ -81,7 +81,7 @@ class Core extends Model
 		return $Login;
 	}
 
-	
+
 	public  function UserInfo($username)
 	{
 		$UserInfo = mysqli_query($this->dbCon, "SELECT * FROM accounts WHERE email='$username' OR accid='$username'");
@@ -99,27 +99,27 @@ class Core extends Model
 			'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e',
 			'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o',
 			'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'ý' => 'y', 'þ' => 'b',
-			'ÿ' => 'y', 'Ŕ' => 'R', 'ŕ' => 'r', '/' => '-', ' ' => '-',','=>'', '&' => 'and'
+			'ÿ' => 'y', 'Ŕ' => 'R', 'ŕ' => 'r', '/' => '-', ' ' => '-', ',' => '', '&' => 'and'
 		);
 		// -- Remove duplicated spaces
 		$stripped = preg_replace(array('/\s{2,}/', '/[\t\n]/', '/[^a-z0-9]/i'), ' ', $string);
 		// -- Returns the slug
-		
+
 		return strtolower(strtr($string, $table));
 	}
 
 
-	
+
 	public function LoadSlides()
 	{
 		return mysqli_query($this->dbCon, "SELECT * FROM sliders ORDER BY id ASC");
-	} 
+	}
 
-	
+
 	public function LoadGallaries()
 	{
 		return mysqli_query($this->dbCon, "SELECT * FROM gallaries ORDER BY id ASC");
-	} 
+	}
 
 
 	public function LoadPages()
@@ -208,7 +208,7 @@ class Core extends Model
 
 
 
-	
+
 
 
 
@@ -229,23 +229,23 @@ class Core extends Model
 		return $result[1];
 	}
 
-	public function CheckWebParts($pageid,$webpart)
+	public function CheckWebParts($pageid, $webpart)
 	{
-		$CheckWebParts = mysqli_query($this->dbCon, "SELECT count(id) AS cnt FROM webparts WHERE page='$pageid' AND webpart='$webpart'" );
+		$CheckWebParts = mysqli_query($this->dbCon, "SELECT count(id) AS cnt FROM webparts WHERE page='$pageid' AND webpart='$webpart'");
 		$CheckWebParts = mysqli_fetch_object($CheckWebParts);
 		return (int)$CheckWebParts->cnt;
 	}
 
-	public function WebPartId($pageid,$webpart)
+	public function WebPartId($pageid, $webpart)
 	{
-		$WebPartId = mysqli_query($this->dbCon, "SELECT id FROM webparts WHERE page='$pageid' AND webpart='$webpart'" );
+		$WebPartId = mysqli_query($this->dbCon, "SELECT id FROM webparts WHERE page='$pageid' AND webpart='$webpart'");
 		$WebPartId = mysqli_fetch_object($WebPartId);
 		return (int)$WebPartId->id;
 	}
 
 	public function CountWebParts($pageid)
 	{
-		$CountWebParts = mysqli_query($this->dbCon, "SELECT count(id) AS cnt FROM webparts WHERE page='$pageid'" );
+		$CountWebParts = mysqli_query($this->dbCon, "SELECT count(id) AS cnt FROM webparts WHERE page='$pageid'");
 		$CountWebParts = mysqli_fetch_object($CountWebParts);
 		return (int)$CountWebParts->cnt;
 	}
@@ -366,7 +366,7 @@ class Core extends Model
 		return $Galleries;
 	}
 
-	
+
 	public function Galleries()
 	{
 		$Galleries = mysqli_query($this->dbCon, "SELECT * FROM gallaries WHERE gallery='1'");
@@ -479,7 +479,7 @@ class Core extends Model
 		}
 	}
 
-	public function CMSkey($cmskey,$pageid, $webpart, $cms)
+	public function CMSkey($cmskey, $pageid, $webpart, $cms)
 	{
 
 		$Template = new Template;
@@ -514,7 +514,7 @@ class Core extends Model
 		$cmsinfo = mysqli_query($this->dbCon, "SELECT `cms` FROM cms WHERE cmskey='$cmskey'");
 		$cmsinfo = mysqli_fetch_object($cmsinfo);
 		if ($cmsinfo) {
-			$sl = (int) strlen( strip_tags($cmsinfo->cms) );
+			$sl = (int) strlen(strip_tags($cmsinfo->cms));
 			if ($sl) {
 				return $cmsinfo->cms;
 			} else {
@@ -530,7 +530,7 @@ class Core extends Model
 		$cmsinfo = mysqli_query($this->dbCon, "SELECT `cms` FROM cms WHERE  id='$id'");
 		$cmsinfo = mysqli_fetch_object($cmsinfo);
 		if ($cmsinfo) {
-			$sl = (int) strlen( strip_tags($cmsinfo->cms) );
+			$sl = (int) strlen(strip_tags($cmsinfo->cms));
 			if ($sl) {
 				return $cmsinfo->cms;
 			} else {
@@ -546,7 +546,7 @@ class Core extends Model
 		$cmsinfo = mysqli_query($this->dbCon, "SELECT `cms` FROM cms WHERE  cmskey='$cmskey'");
 		$cmsinfo = mysqli_fetch_object($cmsinfo);
 		if ($cmsinfo) {
-			$sl = (int) strlen( strip_tags($cmsinfo->cms) );
+			$sl = (int) strlen(strip_tags($cmsinfo->cms));
 			if ($sl) {
 				return $cmsinfo->cms;
 			} else {
@@ -577,14 +577,14 @@ class Core extends Model
 		$result = mysqli_fetch_object($results);
 		return $result;
 	}
-	
+
 	public function PageInfo($shortname)
 	{
 		$results = mysqli_query($this->dbCon, "select * from pages where shortname='$shortname' OR pageid='$shortname' LIMIT 0,1");
 		$result = mysqli_fetch_object($results);
 		return $result;
 	}
-	
+
 	public function DeletePage($pid)
 	{
 		$result = mysqli_query($this->dbCon, "delete pages.* from pages where pageid='$pid' OR shortname='$pid'");
@@ -601,7 +601,91 @@ class Core extends Model
 		return $AdminListVisitors;
 	}
 
+	public function AdminListMembers()
+	{
+		$AdminListMembers = mysqli_query($this->dbCon, "SELECT * FROM members ORDER BY id DESC");
+		return $AdminListMembers;
+	}
+
+	public function AdminListUnapprovedMembers()
+	{
+		$AdminListUnapprovedMembers = mysqli_query($this->dbCon, "SELECT * FROM members WHERE approved='0' ORDER BY id DESC");
+		return $AdminListUnapprovedMembers;
+	}
+
+	public function AdminListApprovedMembers()
+	{
+		$AdminListApprovedMembers = mysqli_query($this->dbCon, "SELECT * FROM members WHERE approved='1' ORDER BY id DESC");
+		return $AdminListApprovedMembers;
+	}
+
+	public  function MemberInfo($id)
+	{
+		$MemberInfo = mysqli_query($this->dbCon, "SELECT * FROM members WHERE email='$id' OR id='$id'");
+		$MemberInfo = mysqli_fetch_object($MemberInfo);
+		return $MemberInfo;
+	}
 
 
+	public  function GetIdsOfMembers()
+	{
+		$members = [];
+		$GetIdsOfMembers = mysqli_query($this->dbCon, "SELECT id FROM members");
+		while ($member = mysqli_fetch_object($GetIdsOfMembers)) {
+			$members[] = $member->id;
+		}
+		return $members;
+	}
+
+	public function AdminListDonations()
+	{
+		$AdminListDonations = mysqli_query($this->dbCon, "SELECT * FROM donations ORDER BY id DESC");
+		return $AdminListDonations;
+	}
+
+	public function AdminListProjects()
+	{
+		$AdminListProjects = mysqli_query($this->dbCon, "SELECT * FROM dues ORDER BY id DESC");
+		return $AdminListProjects;
+	}
+
+	public  function ProjectInfo($id)
+	{
+		$ProjectInfo = mysqli_query($this->dbCon, "SELECT * FROM dues WHERE id='$id'");
+		$ProjectInfo = mysqli_fetch_object($ProjectInfo);
+		return $ProjectInfo;
+	}
+
+
+	public  function PaidMembers($id)
+	{
+		$Project = $this->ProjectInfo($id);
+		$notowning = [];
+		$Members = $this->GetIdsOfMembers();
+		$Unpaid = json_decode($Project->unpaid_members);
+		$Paid = json_decode($Project->paid_members);
+		foreach ($Members as $member) {
+			if (!in_array($member, $Unpaid) && in_array($member, $Paid)) {
+				$notowning[] = $member;
+			}
+		}
+		return (int)count($notowning);
+	}
+
+
+	public  function UnpaidMembers($id)
+	{
+		$Project = $this->ProjectInfo($id);
+		$owning = [];
+		$Members = $this->GetIdsOfMembers();
+		$Unpaid = json_decode($Project->unpaid_members);
+		$Paid = json_decode($Project->paid_members);
+		foreach ($Members as $member) {
+			if (in_array($member, $Unpaid) && !in_array($member, $Paid)) {
+				$owning[] = $member;
+			}
+		}
+		return (int)count($owning);
+	}
 
 }
