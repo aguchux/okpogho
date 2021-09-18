@@ -1,0 +1,110 @@
+/* Text Color */
+a:hover,
+.pagination > li > a:hover, 
+.pagination > li > span:hover, 
+.pagination > li > a:focus, 
+.pagination > li > span:focus, 
+.cs-blog-detail ul li:hover a,
+.cs-author-detail li:hover a,
+.cs-time-schedules li:hover a,
+.widget-archive ul li:hover a,
+.slicknav_nav .slicknav_row:hover a,
+.cs-money-option li span,
+.cs-sitemap .sitemap-links ul li a:hover i,
+.cs-sitemap .sitemap-links ul li a:hover,
+.cs-relevent-links .cs-text a,
+.search-result h4,
+.cs-underconstraction .date .unit,
+ul.cs-check-listing li i,
+.main-banner .cs-text p button,
+.cs-sitemap .sitemap-links ul li.cat-item:hover:before,
+.about-tabs .cs-tabs ul li.active a{
+	color: #eb7420 !important;
+}
+
+/* Background Color */
+.cs-blog-post .cs-media figcaption,
+.btn-submit-holder input[type="submit"],
+.cs-date li a span,
+.sub-header:after,
+.cs-bgcolor, ul.cs-filtter li a:hover,
+.cs-projucts .cs-media figure,
+.cs-img-frame .cs-media .cs-caption a,
+.btn-top,
+.img-frame .cs-caption h2 span,
+.cs-team-list .nav-tabs li figcaption,
+.cs-widget-event li .cs-media figure,
+.widget-calendar thead,
+.cs-donate-btn a:hover,
+.cs-relevent-links:hover .cs-media figcaption,
+.cs-donor-table thead,
+ul.cs-unorderedlist li:before,
+.cs-service.cs-modern .cs-text .cs-btn-read:hover,
+.cs-load-bar .progress .progress-bar, .cs-join-us:hover, .cs-donation-section.cs-index .cs-btn:hover,
+#footer .widget-newsletter input[type="submit"]:hover, .cs-field.cs-btn-submit input[type="submit"]:hover,
+.cs-header-right .cs-top-bar{
+	background-color: #eb7420 !important;
+}
+
+/* Border Color */
+.cs-border-color,
+.cs-services .cs-media img{
+	border-color: #eb7420;
+}
+/* Border Bottom Color */
+.class-name{ border-bottom-color: #eb7420 !important; }
+
+/* Border Top Color */
+.class-name{ border-top-color: #eb7420 !important; }
+
+/* Border Left Color */
+.class-name{ border-left-color:#eb7420 !important;
+}
+/* Border Right Color */
+.class-name { border-right-color: #eb7420 !important; }
+
+
+
+/*Header And Naviagtion Color*/
+/* ------------------------------------*/
+/* Header background color */
+.class-name {  background-color:#eb7420 !important;}
+/* Header Menu Link color */
+.class-name{  color:  #eb7420 !important;}
+/* Header Menu Link Hover color */
+.cs-contact-detail ul li a:hover,
+.cs-top-bar ul.cs-social-media li a:hover,
+.lang-dropdown li a:hover span,
+.cs-main-nav ul li:hover > a,
+.home-link,
+.cs-join ul li .cs-text h6 a:hover {  color: #6aac6e !important;}
+/* Header Menu border color */
+.cs-main-nav ul li:hover a{ border-top-color: #6aac6e !important;}
+/* Submenu Background color */
+.cs-main-nav ul li .sub-dropdown li:hover > a {  background-color:#6aac6e !important;}
+/* Submenu Link color */
+.class-name {  color: #eb7420 !important;}
+/* Submenu Link Hover color */
+.class-name{  color: #eb7420 !important;}
+/* ------------------------------------*/
+/* Footer Colors */
+
+/* Footer Background Color */
+#footer {  background-color:#0b4f4e !important;}
+/* Footer Title Color */
+.class-name{  color: #eb7420 !important;}
+/* Footer Text Color */
+.class-name {  color: #eb7420 !important;}
+/* Footer link Color */
+.class-name{  color: #eb7420 !important;}
+/* Footer link hover Color */
+#footer .widget-socialmedia ul li a:hover,
+.copyrights p a:hover{  color: #eb7420 !important;}
+/* Footer Botton Background Color */
+#footer .widget-newsletter input[type="submit"]{  background-color:#6aac6e !important;}
+/* Footer Widget Background Color */
+.class-name {  background-color:#eb7420 !important;}
+/* Footer Copyright Text Color */
+.copyrights {  color:#889e9e  !important;}
+/* Footer Copyright link Color */
+.copyrights p a {  color: #889e9e  !important;}
