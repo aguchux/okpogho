@@ -585,6 +585,106 @@ class Core extends Model
 		return $result;
 	}
 
+	// SEO Helper Methods
+	public function getPageSEOTitle($pageInfo)
+	{
+		if ($pageInfo && !empty($pageInfo->title)) {
+			$siteTitle = $this->getSiteInfo('title');
+			return $pageInfo->title . ' - ' . $siteTitle;
+		}
+		return $this->getSiteInfo('title');
+	}
+
+	public function getPageMetaDescription($pageInfo)
+	{
+		if ($pageInfo && !empty($pageInfo->metades)) {
+			return $pageInfo->metades;
+		}
+		
+		// Fallback to excerpt or default description
+		if ($pageInfo && !empty($pageInfo->excerpt)) {
+			return strip_tags($pageInfo->excerpt);
+		}
+		
+		return $this->getSiteInfo('site_description');
+	}
+
+	public function getPageMetaKeywords($pageInfo)
+	{
+		if ($pageInfo && !empty($pageInfo->metakey)) {
+			return $pageInfo->metakey;
+		}
+		return $this->getSiteInfo('site_keywords');
+	}
+
+	public function getCanonicalUrl($shortname = '')
+	{
+		$domain = $this->getSiteInfo('domain');
+		$domain = rtrim($domain, '/');
+		
+		if (empty($shortname) || $shortname === 'home') {
+			return $domain . '/';
+		}
+		
+		return $domain . '/pages/' . $shortname;
+	}
+
+	public function getOGImageUrl($pageInfo = null)
+	{
+		$domain = $this->getSiteInfo('domain');
+		$domain = rtrim($domain, '/');
+		
+		if ($pageInfo && !empty($pageInfo->photo)) {
+			return $domain . '/' . ltrim($pageInfo->photo, '/');
+		}
+		
+		// Fallback to default OG image
+		$defaultOGImage = $this->getSiteInfo('og_default_image');
+		if ($defaultOGImage) {
+			return $domain . '/' . ltrim($defaultOGImage, '/');
+		}
+		
+		return $domain . '/templates/assets/images/logo.png';
+	}
+
+	public function generateStructuredData($pageInfo = null)
+	{
+		$siteName = $this->getSiteInfo('title');
+		$domain = $this->getSiteInfo('domain');
+		
+		$structuredData = [
+			"@context" => "https://schema.org",
+			"@type" => "WebSite",
+			"name" => $siteName,
+			"url" => $domain,
+			"potentialAction" => [
+				"@type" => "SearchAction",
+				"target" => [
+					"@type" => "EntryPoint",
+					"urlTemplate" => $domain . "/search?q={search_term_string}"
+				],
+				"query-input" => "required name=search_term_string"
+			]
+		];
+
+		if ($pageInfo) {
+			$structuredData = [
+				"@context" => "https://schema.org",
+				"@type" => "WebPage",
+				"name" => $pageInfo->title,
+				"description" => $this->getPageMetaDescription($pageInfo),
+				"url" => $this->getCanonicalUrl($pageInfo->shortname),
+				"isPartOf" => [
+					"@type" => "WebSite",
+					"name" => $siteName,
+					"url" => $domain
+				]
+			];
+		}
+
+		return json_encode($structuredData, JSON_UNESCAPED_SLASHES);
+	}
+
 	public function DeletePage($pid)
 	{
 		$result = mysqli_query($this->dbCon, "delete pages.* from pages where pageid='$pid' OR shortname='$pid'");

@@ -13,7 +13,44 @@ $Cat4Pages = $Core->CatPages("cat4");
 	<base href="<?= domain ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title><?= $title ?></title>
+	
+	<?php
+	// SEO Meta Tags
+	$seoTitle = isset($PageInfo) ? $Core->getPageSEOTitle($PageInfo) : $title;
+	$metaDescription = isset($PageInfo) ? $Core->getPageMetaDescription($PageInfo) : $Core->getSiteInfo('site_description');
+	$metaKeywords = isset($PageInfo) ? $Core->getPageMetaKeywords($PageInfo) : $Core->getSiteInfo('site_keywords');
+	$canonicalUrl = isset($PageInfo) ? $Core->getCanonicalUrl($PageInfo->shortname) : $Core->getCanonicalUrl();
+	$ogImage = isset($PageInfo) ? $Core->getOGImageUrl($PageInfo) : $Core->getOGImageUrl();
+	$siteName = $Core->getSiteInfo('title');
+	?>
+	
+	<title><?= htmlspecialchars($seoTitle) ?></title>
+	<meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
+	<meta name="keywords" content="<?= htmlspecialchars($metaKeywords) ?>">
+	<meta name="author" content="<?= htmlspecialchars($siteName) ?>">
+	<meta name="robots" content="index, follow">
+	<link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
+	
+	<!-- Open Graph Meta Tags -->
+	<meta property="og:title" content="<?= htmlspecialchars($seoTitle) ?>">
+	<meta property="og:description" content="<?= htmlspecialchars($metaDescription) ?>">
+	<meta property="og:image" content="<?= htmlspecialchars($ogImage) ?>">
+	<meta property="og:url" content="<?= htmlspecialchars($canonicalUrl) ?>">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="<?= htmlspecialchars($siteName) ?>">
+	<meta property="og:locale" content="en_US">
+	
+	<!-- Twitter Card Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?= htmlspecialchars($seoTitle) ?>">
+	<meta name="twitter:description" content="<?= htmlspecialchars($metaDescription) ?>">
+	<meta name="twitter:image" content="<?= htmlspecialchars($ogImage) ?>">
+	<meta name="twitter:url" content="<?= htmlspecialchars($canonicalUrl) ?>">
+	
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" href="<?= $assets ?>/images/favicon.ico">
+	<link rel="apple-touch-icon" href="<?= $assets ?>/images/apple-touch-icon.png">
+	<link rel="manifest" href="/manifest.json">
 	<link href="<?= $assets ?>/css/bootstrap.css" rel="stylesheet">
 	<link href="<?= $assets ?>/css/bootstrap-theme.css" rel="stylesheet">
 	<link href="<?= $assets ?>/css/iconmoon.css" rel="stylesheet">
@@ -35,6 +72,11 @@ $Cat4Pages = $Core->CatPages("cat4");
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    <?= isset($PageInfo) ? $Core->generateStructuredData($PageInfo) : $Core->generateStructuredData() ?>
+    </script>
 </head>
 
 <body>

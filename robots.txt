@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and private directories
+Disallow: /_apps/
+Disallow: /_private/
+Disallow: /_store/
+Disallow: /config/
+Disallow: /templates/admin/
+Disallow: /vendor/
+
+# Allow important assets
+Allow: /templates/assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.gif
+Allow: /*.ico
+
+# Sitemap location (when implemented)
+Sitemap: https://okpogho.org/sitemap.xml
