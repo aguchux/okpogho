@@ -5,4 +5,5 @@ INSERT INTO `settings` (`caption`, `name`, `value`, `type`, `disabled`) VALUES
 ('Default OG Image', 'og_default_image', '/templates/assets/images/og-default.jpg', 'input', 0),
 ('Site Mobile Number', 'site_mobile', '+234 000 000 0000', 'input', 0),
 ('Site Email Address', 'site_email', 'info@okpogho.org', 'input', 0),
-('Footer Newsletter Text', 'footer_news_text', 'Subscribe to our newsletter for updates', 'textarea', 0);
+('Footer Newsletter Text', 'footer_news_text', 'Subscribe to our newsletter for updates', 'textarea', 0),
+('Google Analytics ID', 'google_analytics_id', '', 'input', 0);

@@ -77,6 +77,20 @@ $Cat4Pages = $Core->CatPages("cat4");
     <script type="application/ld+json">
     <?= isset($PageInfo) ? $Core->generateStructuredData($PageInfo) : $Core->generateStructuredData() ?>
     </script>
+    
+    <?php 
+    $ga_tracking_id = $Core->getSiteInfo('google_analytics_id');
+    if (!empty($ga_tracking_id)): 
+    ?>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?= $ga_tracking_id ?>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '<?= $ga_tracking_id ?>');
+    </script>
+    <?php endif; ?>
 </head>
 
 <body>

@@ -685,6 +685,49 @@ class Core extends Model
 		return json_encode($structuredData, JSON_UNESCAPED_SLASHES);
 	}
 
+	public function generateSitemap()
+	{
+		$domain = $this->getSiteInfo('domain');
+		$domain = rtrim($domain, '/');
+		
+		$xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+		$xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+		
+		// Add homepage
+		$xml .= '<url>' . "\n";
+		$xml .= '<loc>' . $domain . '/</loc>' . "\n";
+		$xml .= '<lastmod>' . date('Y-m-d\TH:i:s+00:00') . '</lastmod>' . "\n";
+		$xml .= '<changefreq>daily</changefreq>' . "\n";
+		$xml .= '<priority>1.0</priority>' . "\n";
+		$xml .= '</url>' . "\n";
+		
+		// Add all enabled pages
+		$pages = mysqli_query($this->dbCon, "SELECT shortname, created FROM pages WHERE enabled='YES' AND shortname!='home' ORDER BY created DESC");
+		
+		while ($page = mysqli_fetch_object($pages)) {
+			$xml .= '<url>' . "\n";
+			$xml .= '<loc>' . $domain . '/pages/' . $page->shortname . '</loc>' . "\n";
+			$xml .= '<lastmod>' . date('Y-m-d\TH:i:s+00:00', strtotime($page->created)) . '</lastmod>' . "\n";
+			$xml .= '<changefreq>weekly</changefreq>' . "\n";
+			$xml .= '<priority>0.8</priority>' . "\n";
+			$xml .= '</url>' . "\n";
+		}
+		
+		$xml .= '</urlset>';
+		
+		return $xml;
+	}
+
+	public function saveSitemap()
+	{
+		$sitemapContent = $this->generateSitemap();
+		$filePath = './sitemap.xml';
+		
+		$result = file_put_contents($filePath, $sitemapContent);
+		
+		return $result !== false;
+	}
+
 	public function DeletePage($pid)
 	{
 		$result = mysqli_query($this->dbCon, "delete pages.* from pages where pageid='$pid' OR shortname='$pid'");
