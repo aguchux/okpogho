@@ -71,6 +71,15 @@ $Route->add('/village/{village}/set', function ($village) {
 
 }, 'GET');
 
+// Generate sitemap.xml
+$Route->add('/sitemap.xml', function () {
+    $Core = new Apps\Core;
+    
+    header('Content-Type: application/xml; charset=utf-8');
+    echo $Core->generateSitemap();
+    
+}, 'GET');
+
 include_once "_public/admin.php";
 
 
